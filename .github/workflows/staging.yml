@@ -11,8 +11,6 @@ on:
 
 jobs:
   build:
-    needs:
-      - version-bump
     uses: joseph-flinn/test-github-action-envs/.github/workflows/_build.yml@main
 
   staging-deploy:
