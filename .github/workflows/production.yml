@@ -22,4 +22,4 @@ jobs:
     secrets: inherit
     with:
       environment: production
-      version: ${{ needs.build.outputs.version }}
+      version: ${{ needs.build.outputs.version }}  # Solely used to see version hit web server

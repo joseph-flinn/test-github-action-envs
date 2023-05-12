@@ -20,7 +20,7 @@ jobs:
     secrets: inherit
     with:
       environment: staging
-      version: ${{ needs.build.outputs.version }}
+      version: ${{ needs.build.outputs.version }}  # Solely used to see version hit web server
 
   #production-deploy:
   #  needs:
