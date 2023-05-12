@@ -12,13 +12,13 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to ${{ github.event.inputs.environment }}
+    name: Deploy to ${{ inputs.environment }}
     runs-on: ubuntu-22.04
-    environment: ${{ github.event.inputs.environment }}
-    concurrency: ${{ github.event.inputs.environment }}
+    environment: ${{ inputs.environment }}
+    concurrency: ${{ inputs.environment }}
     steps:
-      - name: "Deploy to: ${{ github.event.inputs.environment }}"
+      - name: "Deploy to: ${{ inputs.environment }}"
         run: |
-          echo "Deploying to ${{ github.event.inputs.environment }}..."
+          echo "Deploying to ${{ inputs.environment }}..."
           echo $(curl -sS ${{ secrets.HOSTING_URL }}/ping | jq .message)
           echo "Done"
