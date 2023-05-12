@@ -11,13 +11,13 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/_build.yml@main
+    uses: ./.github/workflows/_build.yml
     secrets: inherit
 
   staging-deploy:
     needs:
       - build
-    uses: ./.github/workflows/_deploy.yml@main
+    uses: ./.github/workflows/_deploy.yml
     with:
       environment: staging
 
