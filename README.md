@@ -15,5 +15,10 @@
 2. start an ngrok tunnel for each port (in two more shells)
 3. grab the forwarding urls and reset the `HOSTING_URL` secret in the respective GitHub Environment
 4. Run the `CI/CD` pipeline
-    - Validate that the staging server is hit immediately from the pipeline
-    - Validate that the production server requires approval before connecting to the server
+    - Validate that the staging server is hit immediately
+        - seeing the HTTP request come through on the server
+        - seeing "pong" in the "Deploy to: staging" step in the "Deploy to staging" job
+    - Validate that the production server requires approval
+        - validate approval
+        - seeing the HTTP request come through on the server
+        - seeing "pong" in the "Deploy to: staging" step in the "Deploy to staging" job

@@ -20,34 +20,12 @@ jobs:
     secrets: inherit
     with:
       environment: staging
-
-
-  #staging-deploy:
-  #  name: Deploy to Staging
-  #  runs-on: ubuntu-22.04
-  #  needs:
-  #    - build
-  #  environment: staging
-  #  concurrency: staging
-  #  steps:
-  #    - name: Deploy to Staging
-  #      run: |
-  #        echo "Deploying to staging..."
-  #        echo $(curl -sS ${{ secrets.HOSTING_URL }}/ping | jq .message)
-  #        echo "Done"
-
+      version: ${{ needs.build.outputs.version }}
 
   #production-deploy:
-  #  name: Deploy to Production
-  #  runs-on: ubuntu-22.04
   #  needs:
   #    - build
-  #    - staging-deploy
-  #  environment: production
-  #  concurrency: production
-  #  steps:
-  #    - name: Deploy to Production
-  #      run: |
-  #        echo "Deploying to prodution..."
-  #        echo $(curl -sS ${{ secrets.HOSTING_URL }}/ping | jq .message)
-  #        echo "Done"
+  #  uses: ./.github/workflows/_deploy.yml
+  #  secrets: inherit
+  #  with:
+  #    environment: staging

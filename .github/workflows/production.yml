@@ -7,26 +7,12 @@ on:
 
 
 jobs:
-  version-bump:
-    name: Increment Version
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Auto bump version
-        run: |
-          echo "Calculating next version..."
-          echo "  Get current version in main source..."
-          echo "  Get latest tag..."
-          echo "  Get version in in latest tag source..."
-          echo "  If latest tag source version != main source version"
-          echo "    Set version in local source main source version"
-          echo "  Else"
-          echo "    Set local source version to latest tag with incremented patch"
-          echo "Done"
-
   build:
     needs:
       - version-bump
-    uses: joseph-flinn/test-github-action-envs/.github/workflows/_build.yml@main
+    uses: ./.github/workflows/_build.yml
+      with:
+        version-bump: true
 
   tag:
     name: Create Tag
@@ -40,18 +26,11 @@ jobs:
           echo "  Create GitHub tag from local source version"
           echo "Done"
 
-
-  production-deploy:
-    name: Deploy to Production
-    runs-on: ubuntu-22.04
+  staging-deploy:
     needs:
       - build
       - tag
-    environment: production
-    concurrency: production
-    steps:
-      - name: Deploy to Production
-        run: |
-          echo "Deploying to prodution..."
-          echo $(curl -sS ${{ secrets.HOSTING_URL }}/ping | jq .message)
-          echo "Done"
+    uses: ./.github/workflows/_deploy.yml
+    secrets: inherit
+    with:
+      environment: production

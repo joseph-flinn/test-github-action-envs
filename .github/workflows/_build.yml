@@ -1,13 +1,43 @@
 ---
 name: Build
 
-on: workflow_call
+on: 
+  workflow_call:
+    inputs:
+      version-bump:
+        type: boolean
+        required: true
+        default: false
+    outputs:
+      version:
+        description: "version built"
+        value: ${{ jobs.build.outputs.version }}
 
 jobs:
   build:
     name: Test & Build
     runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.version.outputs.value }}
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+
+      - name: Auto bump version
+        if: inputs.version-bump
+        run: |
+          # Base version is 1.1 from 1.1.x
+          echo "Calculating next version..."
+          base_version=$(cat version.json | .baseVersion)
+          ts_version=$(date "+%Y%m%d-%H%M")
+          echo "  version: $base_version.$ts_version"
+          jq --arg version "$base_version.$ts_version" '.version = $version' version.json
+          echo "Done"
+
+      - name: Get Version
+        id: version
+        run: echo "value=$(cat version.json | jq -r .version)" >> $GITHUB_OUTPUT
+
       - name: Run Tests
         run: |
           echo "Running tests..."
