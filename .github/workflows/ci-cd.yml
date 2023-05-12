@@ -36,8 +36,8 @@ jobs:
       - name: Deploy to Staging
         run: |
           echo "Deploying to staging..."
-          curl ${{ secrets.HOSTING_URL }}/ping
-          echo "Done"
+          echo $(curl -sS ${{ secrets.HOSTING_URL }}/ping | jq .message)
+          echo -n "\nDone"
 
 
   production-deploy:
@@ -52,5 +52,5 @@ jobs:
       - name: Deploy to Production
         run: |
           echo "Deploying to prodution..."
-          curl ${{ secrets.HOSTING_URL }}/ping
-          echo "Done"
+          echo $(curl -sS ${{ secrets.HOSTING_URL }}/ping | jq .message)
+          echo -n "\nDone"
