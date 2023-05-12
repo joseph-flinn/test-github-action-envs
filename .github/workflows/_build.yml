@@ -41,8 +41,8 @@ jobs:
             version_suffix=${SHA:0:7}
           fi
 
-          echo "  version: $base_version.$suffix_version"
-          jq --arg version "$base_version.$suffix_version" '.version = $version' version.json > version.json.tmp
+          echo "  version: $base_version.$version_suffix"
+          jq --arg version "$base_version.$version_suffix" '.version = $version' version.json > version.json.tmp
           mv version.json.tmp version.json
           echo "Done"
 
