@@ -26,7 +26,7 @@ jobs:
   build:
     needs:
       - version-bump
-    uses: joseph-flinn/test-github-actions-envs/.github/workflows/_build.yml
+    uses: joseph-flinn/test-github-actions-envs/.github/workflows/_build.yml@main
 
   tag:
     name: Create Tag
