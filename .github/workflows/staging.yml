@@ -11,12 +11,13 @@ on:
 
 jobs:
   build:
-    uses: joseph-flinn/test-github-action-envs/.github/workflows/_build.yml@main
+    uses: ./.github/workflows/_build.yml@main
+    secrets: inherit
 
   staging-deploy:
     needs:
       - build
-    uses: joseph-flinn/test-github-action-envs/.github/workflows/_deploy.yml@main
+    uses: ./.github/workflows/_deploy.yml@main
     with:
       environment: staging
 
