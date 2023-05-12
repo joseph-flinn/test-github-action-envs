@@ -27,10 +27,11 @@ jobs:
         run: |
           # Base version is 1.1 from 1.1.x
           echo "Calculating next version..."
-          base_version=$(cat version.json | .baseVersion)
+          base_version=$(cat version.json | jq -r .baseVersion)
           ts_version=$(date "+%Y%m%d-%H%M")
           echo "  version: $base_version.$ts_version"
-          jq --arg version "$base_version.$ts_version" '.version = $version' version.json
+          jq --arg version "$base_version.$ts_version" '.version = $version' version.json > version.json.tmp
+          mv version.json.tmp version.json
           echo "Done"
 
       - name: Get Version
