@@ -34,3 +34,4 @@ jobs:
     secrets: inherit
     with:
       environment: production
+      version: ${{ needs.build.outputs.version }}
