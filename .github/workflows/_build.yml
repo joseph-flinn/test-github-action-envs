@@ -36,7 +36,10 @@ jobs:
 
       - name: Get Version
         id: version
-        run: echo "value=$(cat version.json | jq -r .version)" >> $GITHUB_OUTPUT
+        run: |
+          version=$(cat version.json | jq -r .version)
+          echo "Version: $version"
+          echo "value=$version" >> $GITHUB_OUTPUT
 
       - name: Run Tests
         run: |
