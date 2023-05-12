@@ -14,19 +14,7 @@ jobs:
     with:
       is-release: true
 
-  tag:
-    name: Create Tag
-    runs-on: ubuntu-22.04
-    needs:
-      - build
-    steps:
-      - name: Prep for Release
-        run: |
-          echo "Creating GitHub tag..."
-          echo "  Create GitHub tag from local source version"
-          echo "Done"
-
-  staging-deploy:
+  production-deploy:
     needs:
       - build
       - tag

@@ -16,6 +16,9 @@ jobs:
   build:
     name: Test & Build
     runs-on: ubuntu-22.04
+    env:
+      _BOT_EMAIL: 106330231+bitwarden-devops-bot@users.noreply.github.com
+      _BOT_NAME: bitwarden-devops-bot
     outputs:
       version: ${{ steps.version.outputs.value }}
     steps:
@@ -24,7 +27,6 @@ jobs:
 
       - name: Generate Version
         run: |
-          # Base version is 1.1 from 1.1.x
           echo "Calculating next version..."
           base_version=$(cat version.json | jq -r .baseVersion)
 
@@ -54,4 +56,19 @@ jobs:
       - name: Build Artifact
         run: |
           echo "Building artifact..."
+          echo "Done"
+
+      - name: Tag commit
+        if: is-release
+        env:
+          TAG_VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          git config --local user.email "${{ env._BOT_EMAIL }}"
+          git config --local user.name "${{ env._BOT_NAME }}"
+
+          echo "Creating GitHub tag..."
+          git add version.json
+          git commit -m "Bump Version to $TAG_VERSION"
+          git tag -a v$TAG_VERSION -m "Release version $TAG_VERSION" $(git rev-parse HEAD)
+          git push --tags
           echo "Done"
