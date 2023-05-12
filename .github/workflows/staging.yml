@@ -12,12 +12,12 @@ on:
 jobs:
   build:
     uses: ./.github/workflows/_build.yml
-    secrets: inherit
 
   staging-deploy:
     needs:
       - build
     uses: ./.github/workflows/_deploy.yml
+    secrets: inherit
     with:
       environment: staging
 
