@@ -15,7 +15,6 @@ jobs:
   production-deploy:
     needs:
       - build
-      - tag
     uses: ./.github/workflows/_deploy.yml
     secrets: inherit
     with:
