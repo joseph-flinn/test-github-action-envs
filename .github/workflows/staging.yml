@@ -12,8 +12,6 @@ on:
 jobs:
   build:
     uses: ./.github/workflows/_build.yml
-    with:
-      sha: ${{ github.sha }}
 
   staging-deploy:
     needs:
