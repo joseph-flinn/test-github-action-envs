@@ -59,7 +59,7 @@ jobs:
           echo "Done"
 
       - name: Tag commit
-        if: is-release
+        if: inputs.is-release
         env:
           TAG_VERSION: ${{ steps.version.outputs.value }}
         run: |
