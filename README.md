@@ -8,6 +8,9 @@
     - If building to deploy to staging, the short commit hash is used for the version suffix
     - If building to deploy to production, the datetime stamp is used for the version suffix
 - A tag is created, detached from `main` which includes the released version with datetime stamp
+- The Production tagging/release
+    - is triggered manaully with a `workflow_dispatch` event
+    - deploy step is protected with a manual approval setup on the GitHub Environment protection rules
 
 
 ## Testing
