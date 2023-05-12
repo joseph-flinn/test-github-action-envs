@@ -5,6 +5,9 @@ on:
   workflow_dispatch: 
     inputs: {}
 
+permissions:
+  contents: write
+  deployments: write
 
 jobs:
   build:
