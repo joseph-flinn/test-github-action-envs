@@ -15,6 +15,16 @@
 
 ## Testing
 
+### Requirements
+- pipenv
+- ngrok
+
+### Setup
+```
+pipenv install
+```
+
+### Process
 1. start two small http servers
     ```
     # In one shell:
@@ -26,12 +36,22 @@
     uvicorn simple-server:app --port 8002
     ```
 2. start an ngrok tunnel for each port (in two more shells)
-3. grab the forwarding urls and reset the `HOSTING_URL` secret in the respective GitHub Environment
-4. Run the `CI/CD` pipeline
-    - Validate that the staging server is hit immediately
+    ```
+    # In one shell:
+    ngrok http 8001
+
+    # In another shell:
+    ngrok http 8002
+    ```
+3. grab the forwarding urls and reset the `HOSTING_URL` secret in the respective GitHub Environments
+4. Validate `CI/CD - Staging`
+    - push a commit to `main`
+    - validate that the staging server is hit immediately
         - seeing the HTTP request come through on the server
         - seeing "pong" in the "Deploy to: staging" step in the "Deploy to staging" job
-    - Validate that the production server requires approval
+5. Validate `CI/CD - Production`
+    - Manually trigger the pipeline
+    - validate that the production server requires approval
         - validate approval
         - seeing the HTTP request come through on the server
         - seeing "pong" in the "Deploy to: staging" step in the "Deploy to staging" job
