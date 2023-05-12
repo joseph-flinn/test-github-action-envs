@@ -12,7 +12,7 @@ jobs:
       - version-bump
     uses: ./.github/workflows/_build.yml
     with:
-      version-bump: true
+      is-release: true
 
   tag:
     name: Create Tag

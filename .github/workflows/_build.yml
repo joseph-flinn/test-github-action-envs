@@ -7,6 +7,8 @@ on:
       is-release:
         type: boolean
         default: false
+      sha:
+        type: string
     outputs:
       version:
         description: "version built"
@@ -31,7 +33,12 @@ jobs:
           if [[ "${{ inputs.is-release }}" == "true" ]]; then
             version_suffix=$(date "+%Y%m%d-%H%M")
           else
-            version_suffix=${GITHUB_SHA:0:7}
+            if [[ "${{ inputs.sha }}" == "" ]]; then
+              echo "inputs.sha requied if not a release build"
+              exit 1
+            fi
+            SHA=${{ inputs.sha }}
+            version_suffix=${SHA:0:7}
           fi
 
           echo "  version: $base_version.$suffix_version"
