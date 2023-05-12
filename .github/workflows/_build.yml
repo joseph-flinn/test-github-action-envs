@@ -1,0 +1,19 @@
+---
+name: Build
+
+on: workflow_call
+
+jobs:
+  build:
+    name: Test & Build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Run Tests
+        run: |
+          echo "Running tests..."
+          echo "Done"
+
+      - name: Build Artifact
+        run: |
+          echo "Building artifact..."
+          echo "Done"

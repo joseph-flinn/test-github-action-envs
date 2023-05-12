@@ -1,0 +1,57 @@
+---
+name: CI/CD - Production
+
+on:
+  workflow_dispatch: 
+    inputs: {}
+
+
+jobs:
+  version-bump:
+    name: Increment Version
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Auto bump version
+        run: |
+          echo "Calculating next version..."
+          echo "  Get current version in main source..."
+          echo "  Get latest tag..."
+          echo "  Get version in in latest tag source..."
+          echo "  If latest tag source version != main source version"
+          echo "    Set version in local source main source version"
+          echo "  Else"
+          echo "    Set local source version to latest tag with incremented patch"
+          echo "Done"
+
+  build:
+    needs:
+      - version-bump
+    uses: joseph-flinn/test-github-actions-envs/.github/workflows/_build.yml
+
+  tag:
+    name: Create Tag
+    runs-on: ubuntu-22.04
+    needs:
+      - build
+    steps:
+      - name: Prep for Release
+        run: |
+          echo "Creating GitHub tag..."
+          echo "  Create GitHub tag from local source version"
+          echo "Done"
+
+
+  production-deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-22.04
+    needs:
+      - build
+      - tag
+    environment: production
+    concurrency: production
+    steps:
+      - name: Deploy to Production
+        run: |
+          echo "Deploying to prodution..."
+          echo $(curl -sS ${{ secrets.HOSTING_URL }}/ping | jq .message)
+          echo "Done"

@@ -1,0 +1,23 @@
+---
+name: Deploy to ${{ github.event.inputs.environment }}
+
+on: 
+  workflow_call:
+    input:
+      environment:
+        type: string
+        required: true
+        description: "Environment to deploy to"
+
+jobs:
+  deploy:
+    name: Deploy to ${{ github.event.inputs.environment }}
+    runs-on: ubuntu-22.04
+    environment: ${{ github.event.inputs.environment }}
+    concurrency: ${{ github.event.inputs.environment }}
+    steps:
+      - name: "Deploy to: ${{ github.event.inputs.environment }}"
+        run: |
+          echo "Deploying to ${{ github.event.inputs.environment }}..."
+          echo $(curl -sS ${{ secrets.HOSTING_URL }}/ping | jq .message)
+          echo "Done"
