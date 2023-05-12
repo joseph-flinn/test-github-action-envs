@@ -19,6 +19,7 @@ jobs:
     needs:
       - build
     uses: joseph-flinn/test-github-actions-envs/.github/workflows/_deploy.yml@main
+    with:
       environment: staging
 
 
