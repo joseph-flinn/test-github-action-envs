@@ -4,7 +4,7 @@ name: Build
 on: 
   workflow_call:
     inputs:
-      version-bump:
+      is-release:
         type: boolean
         default: false
     outputs:
@@ -22,15 +22,20 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
 
-      - name: Auto bump version
-        if: inputs.version-bump
+      - name: Generate Version
         run: |
           # Base version is 1.1 from 1.1.x
           echo "Calculating next version..."
           base_version=$(cat version.json | jq -r .baseVersion)
-          ts_version=$(date "+%Y%m%d-%H%M")
-          echo "  version: $base_version.$ts_version"
-          jq --arg version "$base_version.$ts_version" '.version = $version' version.json > version.json.tmp
+
+          if [[ "${{ inputs.is-release }}" == "true" ]]; then
+            version_suffix=$(date "+%Y%m%d-%H%M")
+          else
+            version_suffix=${GITHUB_SHA:0:7}
+          fi
+
+          echo "  version: $base_version.$suffix_version"
+          jq --arg version "$base_version.$suffix_version" '.version = $version' version.json > version.json.tmp
           mv version.json.tmp version.json
           echo "Done"
 
