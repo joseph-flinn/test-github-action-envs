@@ -1,5 +1,15 @@
 # Test GitHub Environments
 
+## Flow Design
+
+- Every commit to `main` auto deploys to the `staging` environment
+- Every build asset gets a generated version from the baseVersion in `version.json`
+- Assets are rebuilt and retested while deploying to production (we can deploy to staging here too if we want)
+    - If building to deploy to staging, the short commit hash is used for the version suffix
+    - If building to deploy to production, the datetime stamp is used for the version suffix
+- A tag is created, detached from `main` which includes the released version with datetime stamp
+
+
 ## Testing
 
 1. start two small http servers

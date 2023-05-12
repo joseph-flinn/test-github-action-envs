@@ -58,7 +58,7 @@ jobs:
           echo "Building artifact..."
           echo "Done"
 
-      - name: Tag commit
+      - name: Tag & push release commit
         if: inputs.is-release
         env:
           TAG_VERSION: ${{ steps.version.outputs.value }}
