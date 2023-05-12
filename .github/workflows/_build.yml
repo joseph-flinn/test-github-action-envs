@@ -38,7 +38,7 @@ jobs:
               exit 1
             fi
             SHA=${{ inputs.sha }}
-            version_suffix=${SHA:0:7}
+            version_suffix=${GITHUB_SHA:0:7}
           fi
 
           echo "  version: $base_version.$version_suffix"
